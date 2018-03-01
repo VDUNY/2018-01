@@ -1,0 +1,74 @@
+﻿<Window x:Class="ViewImages.VideoStreamView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:lib_ZoomPanControl;assembly=lib_ZoomPanControl"
+        Title="VideoStream" Height="400" Width="400"
+        Loaded="VideoStream_Loaded"
+        >
+    <Window.Resources>
+        <!-- UI commands. -->
+        <ResourceDictionary>
+            <RoutedUICommand x:Key="Commands.ZoomOut" />
+            <RoutedUICommand x:Key="Commands.ZoomIn" />
+            <ResourceDictionary.MergedDictionaries>
+                    <!-- specs how to display text -->
+                <ResourceDictionary Source="pack://application:,,,/Wpf_Library;component/Wpf_Library.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.InputBindings>
+        <!--   Bind keys to commands.   -->
+        <KeyBinding Key="Minus" Command="{StaticResource Commands.ZoomOut}" />
+        <KeyBinding Key="Plus"	Command="{StaticResource Commands.ZoomIn}"	/>
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <!--    Bind commands to event handlers.    -->
+        <CommandBinding Command="{StaticResource Commands.ZoomOut}" Executed="ZoomOut_Executed" />
+        <CommandBinding Command="{StaticResource Commands.ZoomIn}"  Executed="ZoomIn_Executed"  />
+    </Window.CommandBindings>
+
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="90*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Name="stkpnlMain"  Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+            <Label Name="lblCaption" Content="{Binding Path=ControlCaption}" Style="{StaticResource lblStyleSetting}" Background="Coral" />
+            <Button Name="cmdZoomOut" Content="      -      " Margin="15, 0, 0, 0" Click="cmdZoomOut_Click"
+                    IsManipulationEnabled="True" TouchDown="cmdZoomOut_TouchDown"></Button>
+            <Button Name="cmdZoomIn"  Content="      +      " Margin="15, 0, 0, 0" Click="cmdZoomIn_Click"
+                    IsManipulationEnabled="True" TouchDown="cmdZoomIn_TouchDown"></Button>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" x:Name="scrollImg" 
+                      CanContentScroll="true" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
+                       SizeChanged="scrlvwr_SizeChanged" >
+            <local:ZoomPanControl x:Name="controlZoomPan" Background="LightGray">
+                <DockPanel x:Name="dckpnlImg"  Background="White" >
+                    <Image Name="imgLiveVideo" Source="{Binding Path=ImageSource}" Stretch="None" 
+                           MouseMove="imgLiveVideo_MouseMove"/>
+                </DockPanel>
+            </local:ZoomPanControl>
+        </ScrollViewer>
+        <Rectangle Grid.Row="1" Grid.Column="0" Margin="0" Name="reticleCamera" Stroke="Green" Height="20" Width="20"
+               StrokeThickness="5" MouseDown="markerCamera_MouseDown" MouseUp="markerCamera_MouseUp" Visibility="Hidden"/>
+        <!-- Visibility="{Binding Path=ReticleVisibility}" -->
+        <Ellipse Grid.Row="1" Grid.Column="0" Height="10" Name="fid1Camera" Stroke="Blue" Fill="Blue" Width="10" Opacity="0.8"
+               MouseDown="markerCamera_MouseDown" MouseUp="markerCamera_MouseUp" Visibility="Hidden"  >
+            <!-- Visibility="{Binding Path=Fiducial1Visibility}" -->
+            <Ellipse.RenderTransform>
+                <TranslateTransform x:Name="fid1Transform" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+        <Ellipse Grid.Row="1" Grid.Column="0" Height="10" Name="fid2Camera" Stroke="Red"  Fill="Red"  Width="10" Opacity="0.8" 
+              MouseDown="markerCamera_MouseDown" MouseUp="markerCamera_MouseUp" Visibility="Hidden">
+            <!-- Visibility="{Binding Path=Fiducial2Visibility}" -->
+            <Ellipse.RenderTransform>
+                <TranslateTransform x:Name="fid2Transform" />
+            </Ellipse.RenderTransform>
+        </Ellipse>
+    </Grid>
+</Window>
+

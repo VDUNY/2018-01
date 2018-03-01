@@ -1,0 +1,80 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- specifies a set of default appearances for the controls to give a uniform 
+    look over the entire application -->
+    
+    <Style x:Key="brdrStyleBorder" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="Yellow" />
+        <Setter Property="BorderThickness" Value="5" />
+    </Style>
+    
+    <Style x:Key="cmdStyleCaption" TargetType="{x:Type Control}">
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="16" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="3" />
+    </Style>
+
+    <Style x:Key="lblStyleCaption" TargetType="{x:Type Control}">
+        <Setter Property="Control.Background" Value="Coral" />
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="14" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Control.FontStretch" Value="Expanded" />
+        <Setter Property="Margin" Value="3" />
+    </Style>
+
+    <Style x:Key="lblStyleSetting" TargetType="{x:Type Control}">
+        <Setter Property="Control.Background" Value="Bisque" />
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="18" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="3" />
+    </Style>
+
+    <Style x:Key="lstbxStyleCaption" TargetType="{x:Type Control}">
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="16" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="3" />
+    </Style>
+
+    <Style x:Key="stkpnlStyleCaption" TargetType="{x:Type StackPanel}">
+        <Setter Property="Background" Value="Coral" />    
+    </Style>
+
+    <Style x:Key="stkpnlStyleSetting" TargetType="{x:Type StackPanel}">
+        <Setter Property="Background" Value="Aqua" />
+    </Style>
+
+    <Style x:Key="txtblStyleCaption" TargetType="{x:Type TextBlock}">
+        <Setter Property="Control.Background" Value="Fuchsia" />
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="14" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="txtblStyleSetting" TargetType="{x:Type TextBlock}">
+        <Setter Property="Control.Background" Value="Pink" />
+        <Setter Property="Control.FontFamily" Value="TimesNewRoman" />
+        <Setter Property="Control.FontSize" Value="14" />
+        <Setter Property="Control.FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="3" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="txtbxStyleText" TargetType="{x:Type TextBox}">
+        <Setter Property="Control.Background" Value="PowderBlue" />
+        <Setter Property="Control.FontFamily" Value="Arial" />
+        <Setter Property="Control.FontSize" Value="18" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

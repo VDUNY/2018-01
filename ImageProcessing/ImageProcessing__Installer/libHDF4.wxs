@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmpB6BEB5FB7181CFE6CF4C3B6695696B74" Guid="{E13BA2CF-EFE3-4046-A6A2-4044A1B68FD6}">
+              <File Id="libHDF4" KeyPath="yes" Source="..\Build\libHDF4.dll" />
+              <File Id="libHDF4_Debug" Source="..\Build\libHDF4.pdb" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>

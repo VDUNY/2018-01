@@ -1,0 +1,56 @@
+﻿<Window x:Class="MainDriver.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MainDriver"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1300"
+        Closing="MainView_Closing">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- specs how to display text -->
+                <ResourceDictionary Source="pack://application:,,,/Wpf_Library;component/Wpf_Library.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" ></RowDefinition>
+            <RowDefinition Height="5*" ></RowDefinition>
+            <RowDefinition Height="70*" ></RowDefinition>
+            <RowDefinition Height="10*" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0" IsMainMenu="True">
+            <MenuItem Header="_File">
+                <MenuItem Header="e_Xit" Click="mnuFileExit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Command="{Binding HelpAboutCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource brdrStyleBorder}">
+            <StackPanel>
+                <StatusBar>
+                    <StatusBarItem>
+                        <Separator  Width="5" />
+                    </StatusBarItem>
+                </StatusBar>
+                <StatusBar >
+                    <DockPanel LastChildFill="True" Width="{Binding ElementName=mainWindow, Path=Width}">
+                        <Button DockPanel.Dock="Left" Content="Clear App Status" Command="{Binding Path=ClearStatusMsgCommand}" Style="{StaticResource cmdStyleCaption}"/>
+                        <Label DockPanel.Dock="Right" Content="{Binding Path=StatusMsg, Mode=OneWay}" Style="{StaticResource lblStyleSetting}" />
+                    </DockPanel>
+                </StatusBar>
+            </StackPanel>
+        </Border>
+
+        <TabControl Grid.Row="2" Grid.Column="0"  Name="tabImages"  />
+
+    </Grid>
+</Window>

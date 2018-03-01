@@ -1,0 +1,19 @@
+After loading one of the images, the app runs in continuous acquistion.
+Before loading another image, click the 'Continuous' button which will stop acquisition. 
+Then you can load another image which will start in continuous acquisition.
+
+My downstream code expects unsigned short data (UInt16). 
+
+The Jupiter bmp has Format8bppIndex which means one byte per pixel.
+
+The Fractal bmp has Format24bppIndex which means three bytes per pixel. 
+
+I have made no attempt to massage the 24 bpp rgb fractal image into 8 bpp grey scale. Hence it loads but displays not as desired.
+
+The sln was built in vs2015 w/.net 4.5.2 and vc++ toolset v14.
+
+If you open the sln in vs2013, you will need to adjust the .net ver to 4.5 and the vc++ toolset to v12.
+
+The libHDF4 prj is an in-house vc++ prj for working with hierarchical data format files (hdf). For this sln, it is required to load the spherical data. This is the prj that might cause you issues. Prj settings include:
+   config manager: x64
+   target build: x64

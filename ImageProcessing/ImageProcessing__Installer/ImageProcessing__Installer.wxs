@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- msiexec /i PrjInstaller.msi /l*v myLog.txt -->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Imaging Presentation" Language="1033" Version="1.1.0.0" Manufacturer="LLE" UpgradeCode="F1EC9B46-7727-4214-B869-F071B8477147">
+    
+
+    <!-- VS creates w/InstallerVersion = 200. Causes warning that MergeModule - ver = 405 - could cause issues. Fix is to simply change InstallerVersion to 405.  -->
+		<Package InstallerVersion="405" Compressed="yes" InstallScope="perMachine" 
+                Description="Installer for Imaging Presentation" Comments="Requires .NET, COM and flat-dll support."/>
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <!-- By embedding cab file, it keeps the build dir clean. Else there is an extraneous cab file that we don't use. -->
+    <MediaTemplate CabinetTemplate="Cryo{0}.cab"  EmbedCab="yes"  />
+    <WixVariable Id="WixUILicenseRtf" Value="LicenseAgreement.rtf" />
+    <Feature Id="ProductFeature" Title="Centering Presentation Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+<!--      <ComponentGroupRef Id="CenteringComponents"/> -->
+      <ComponentGroupRef Id="ThirdPartyComponents"/>
+      <ComponentGroupRef Id="AvailablePalettes" />
+      <MergeRef Id="msvc120"/>  <!-- Used by flat dlls built with vs2012/2013, e.g. the hdf stuff. -->
+    </Feature>
+
+    <UIRef Id="WixUI_Advanced"/>
+
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <!-- Id is used by Wix. Name is created in file system. -->
+        <Directory Id="LLE" Name="LLE">
+          <Directory Id="INSTALLFOLDER" Name="Imaging_Presentation">
+            <Directory Id="Palettes" Name="Palettes" />
+            <Merge Id="msvc120" Language="1033" SourceFile="C:\Program Files (x86)\Common Files\Merge Modules\Microsoft_VC120_DebugCRT_x86.msm" DiskId="1" />
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+	</Fragment>
+
+  <Fragment>
+    <Property Id="ApplicationFolderName" Value="LLE\Imaging_Presentation" />
+    <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+  </Fragment>
+
+  <Fragment>
+    <!-- Icons Id must have extension of 'ico' or 'exe' -->
+    <Icon Id="Cryoview.exe" SourceFile="..\Build\Cryoview.exe" />
+  </Fragment>
+
+
+  <Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+
+      <Component Id="ProductExecutable" >
+        <File Id="MainDriver" KeyPath="yes" Source="..\Build\MainDriver.exe" />
+        <File Id="MainDriver_Debug" Source="..\Build\MainDriver.pdb" />
+        <File Id="MainDriver_Config" Source="..\Build\MainDriver.exe.config" />
+      </Component>
+
+      <Component Id="IMainWindow" >
+        <File Id="MainI_Window" KeyPath="yes" Source="..\Build\Main_IWindow.dll" />
+        <File Id="Main_IWindow_Debug" Source="..\Build\Main_IWindow.pdb" />
+      </Component>
+
+      <Component>
+        <File Id="Main_ViewModel" KeyPath="yes" Source="..\Build\Main_ViewModel.dll" />
+        <File Id="Main_ViwModel_Debug" Source="..\Build\Main_ViewModel.pdb" />
+      </Component>
+
+      <Component Id="Wpf_Library" >
+        <File Id="Wpf_Library" KeyPath="yes" Source="..\Build\Wpf_Library.dll" />
+        <File Id="Wpf_Library_Debug" Source="..\Build\Wpf_Library.pdb" />
+      </Component>
+
+      <Component Id="ModuleMessages">
+        <File Id="ModuleMessages" KeyPath="yes" Source="..\Build\ModuleMessages.dll" />
+        <File Id="ModuleMessages_Debug" Source="..\Build\ModuleMessages.pdb" />
+      </Component>
+
+      <Component Id="Image_Interface" >
+        <File Id="ImageInterface" KeyPath="yes" Source="..\Build\Image_Interface.dll" />
+        <File Id="ImageInterface_Debug" Source="..\Build\Image_Interface.pdb" />
+      </Component>
+
+      <Component Id="Image_View" >
+        <File Id="ImageView" KeyPath="yes" Source="..\Build\Image_View.dll" />
+        <File Id="ImageView_Debug" Source="..\Build\Image_View.pdb" />
+      </Component>
+
+      <Component Id="Image_ViewModel" >
+        <File Id="ImageViewModel" KeyPath="yes" Source="..\Build\Image_ViewModel.dll" />
+        <File Id="ImageViewModel_Debug" Source="..\Build\Image_ViewModel.pdb" />
+      </Component>
+
+      <Component Id="Image_Fractal_Model" >
+        <File Id="ImageFractalModel" KeyPath="yes" Source="..\Build\Image_Fractal_Model.dll" />
+        <File Id="ImageFractalModel_Debug" Source="..\Build\Image_Fractal_Model.pdb" />
+      </Component>
+
+      <Component Id="Image_Jupiter_Model" >
+        <File Id="ImageJupiterModel" KeyPath="yes" Source="..\Build\Image_Jupiter_Model.dll" />
+        <File Id="ImageJupiterModel_Debug" Source="..\Build\Image_Jupiter_Model.pdb" />
+      </Component>
+
+      <Component Id="Image_Virtual_Model" >
+        <File Id="ImageVirtualModel" KeyPath="yes" Source="..\Build\Image_Virtual_Model.dll" />
+        <File Id="ImageVirtualModel_Debug" Source="..\Build\Image_Virtual_Model.pdb" />
+      </Component>
+
+      <Component Id="Image_Control_View" >
+        <File Id="ImageControlView" KeyPath="yes" Source="..\Build\Image_Control_View.dll" />
+        <File Id="ImageControlView_Debug" Source="..\Build\Image_Control_View.pdb" />
+      </Component>
+
+      <Component Id="Image_Control_ViewModel" >
+        <File Id="ImageControlViewModel" KeyPath="yes" Source="..\Build\Image_Control_ViewModel.dll" />
+        <File Id="ImageControlViewModel_Debug" Source="..\Build\Image_Control_ViewModel.pdb" />
+      </Component>
+
+      <Component>
+        <File Id="lib_ZoomPanControl" KeyPath="yes" Source="..\Build\lib_ZoomPanControl.dll" />
+        <File Id="lib_ZoomPanControl_debug" Source="..\Build\lib_ZoomPanControl.pdb" />
+      </Component>
+
+      <Component>
+        <File Id="LicenseAgreement" KeyPath="yes" Source="LicenseAgreement.rtf" />
+      </Component>
+      <!-- libHDF4 -->
+      <ComponentRef Id="cmpB6BEB5FB7181CFE6CF4C3B6695696B74" />
+
+      <Component>
+        <File Id="libUtil" KeyPath="yes" Source="..\Build\libUtil.dll" />
+        <File Id="libUtil_Debug" Source="..\Build\libUtil.pdb" />
+      </Component>
+
+      <Component Id="Fractal_Bmp">
+        <File Id="FractalBmp" KeyPath="yes" Source="..\Build\Fractal.bmp" />
+      </Component>
+
+      <Component Id="Jupiter_Bmp">
+        <File Id="JupiterBmp" KeyPath="yes" Source="..\Build\Jupiter.bmp" />
+      </Component>
+
+      <Component Id="SimulationData_Hdf">
+        <File Id="SimulationDataHdf" KeyPath="yes" Source="..\Build\SimulationData.hdf" />
+      </Component>
+
+
+    </ComponentGroup>
+	</Fragment>
+
+  <!--
+  
+  <Fragment>
+    <ComponentGroup Id="CenteringComponents" Directory="INSTALLFOLDER">
+      <Component>
+        <File Id="CenteringAssist" KeyPath="yes" Source="..\Build\CenteringAssist.dll" />
+        <File Id="CenteringAssist_Debug" Source="..\Build\CenteringAssist.pdb" />
+      </Component>
+
+      <Component Guid="{2CDE7C41-174D-47AE-BADF-AED37040F2F9}" >
+        <File Id="CenteringFit" KeyPath="yes" Source="..\Build\CenteringFit.dll" />
+        <File Id="CenteringFit_Debug" Source="..\Build\CenteringFit.pdb" />
+      </Component>
+      <Component>
+        <File Id="Emgu.CV" KeyPath="yes" Source="..\Build\Emgu.CV.dll" />
+      </Component>
+
+      <Component>
+        <File Id="Emgu.Util" KeyPath="yes" Source="..\Build\Emgu.Util.dll" />
+      </Component>
+
+      <Component>
+        <File Id="CenteringExtensions" KeyPath="yes" Source="..\Build\CenteringExtensions.dll" />
+        <File Id="CenteringExtensions_Debug" Source="..\Build\CenteringExtensions.pdb" />
+      </Component>
+
+      <Component>
+        <File Id="FSharp.Core" KeyPath="yes" Source="C:\Program Files (x86)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\4.3.1.0\FSharp.Core.dll" />
+      </Component>
+
+      <Component>
+        <File Id="MathNet.Numerics" KeyPath="yes" Source="..\Build\MathNet.Numerics.dll" />
+      </Component>
+
+      <Component>
+        <File Id="opencv_core220" KeyPath="yes" Source="..\Build\opencv_core220.dll" />
+      </Component>
+
+      <Component>
+        <File Id="opencv_imgproc220" KeyPath="yes" Source="..\Build\opencv_imgproc220.dll" />
+      </Component>
+
+    </ComponentGroup>
+  </Fragment>
+
+-->
+
+<Fragment>
+    <ComponentGroup Id="ThirdPartyComponents" Directory="INSTALLFOLDER">
+
+      <Component>
+        <File Id="hdfdll" Source="..\Build\hdf.dll" />
+      </Component>
+
+      <Component>
+        <File Id="jpegdll" Source="..\Build\jpeg.dll" />
+      </Component>
+
+      <Component>
+        <File Id="mfhdfdll" Source="..\Build\mfhdf.dll" />
+      </Component>
+<!-- mfhdf.dll  -->
+      <Component> <!-- remote debugging -->
+        <File Id="msvcp140" KeyPath="yes" Source="..\Build\Msvcp140.DLL" />
+      </Component>
+
+      <Component>
+        <File Id="msvcr110" KeyPath="yes" Source="..\Build\Msvcr110.DLL" />
+      </Component>
+
+      <Component>
+        <File Id="ucrtbased" KeyPath="yes" Source="..\Build\ucrtbased.dll" />
+      </Component>
+
+      <Component> <!-- remote debugging -->
+        <File Id="vcruntime140" KeyPath="yes" Source="..\Build\vcruntime140.dll" />
+      </Component>
+      
+      <Component>
+        <File Id="vcruntime140d" KeyPath="yes" Source="..\Build\vcruntime140d.dll" />
+       </Component>
+<!--
+      <Component>
+        <File Id="msvcr120d" KeyPath="yes" Source="..\Build\Msvcr120d.DLL" />
+      </Component>
+-->
+      <Component>
+        <File Id="Prism" KeyPath="yes" Source="..\Build\Prism.dll" />
+      </Component>
+
+      <Component Id="cmpPrismXml" Guid="{97C9E154-54D0-4F36-AEB7-51BEF0E60F37}">
+        <File Id="PrismXml" Source="..\Build\Prism.xml" />
+      </Component>
+
+      <Component>
+        <File Id="szipdll" Source="..\Build\szip.dll" />
+      </Component>
+
+      <Component>
+        <File Id="xdrdll" Source="..\Build\xdr.dll" />
+      </Component>
+
+      <Component>
+        <File Id="zlibdll" Source="..\Build\zlib.dll" />
+      </Component>
+
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="AvailablePalettes" Directory="Palettes">
+
+      <Component>
+        <File Id="Caramel" Source="..\Build\Palettes\Caramel.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Cascade" Source="..\Build\Palettes\Cascade.csv" />
+      </Component>
+
+      <Component>
+        <File Id="China" Source="..\Build\Palettes\China.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Coldfire" Source="..\Build\Palettes\Coldfire.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Dark_Pastels" Source="..\Build\Palettes\Dark_Pastels.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Default" Source="..\Build\Palettes\Default.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Firecode" Source="..\Build\Palettes\Firecode.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Gold" Source="..\Build\Palettes\Gold.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Grayblue" Source="..\Build\Palettes\Grayblue.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Grayscale" Source="..\Build\Palettes\Grayscale.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Hilite" Source="..\Build\Palettes\Hilite.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Plasma" Source="..\Build\Palettes\Plasma.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Reds" Source="..\Build\Palettes\Reds.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Royal" Source="..\Build\Palettes\Royal.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Topographic" Source="..\Build\Palettes\Topographic.csv" />
+      </Component>
+
+      <Component>
+        <File Id="Volcano" Source="..\Build\Palettes\Volcano.csv" />
+      </Component>
+
+    </ComponentGroup>
+  </Fragment>
+
+</Wix>
